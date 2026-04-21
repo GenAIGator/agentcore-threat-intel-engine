@@ -1,0 +1,1 @@
+{"id":"muddywater","name":"MuddyWater","attribution":{"country":"Iran","region":"Middle East"},"file_type":"tabletop","tabletop_use_cases":["government phishing campaign","PowerShell-based persistence","mailbox compromise"],"simulator_injects":["SOC detects unusual PowerShell history","threat intel notes renewed MuddyWater activity","mail logs show quiet long-term access"]}

@@ -1,0 +1,1 @@
+{"id":"scarcruft","name":"ScarCruft","attribution":{"country":"North Korea","region":"East Asia"},"file_type":"detection","detection_opportunities":["unexpected login geography","mobile device sign-in anomalies","new mailbox delegates","large document downloads","watering-hole traffic spikes"]}

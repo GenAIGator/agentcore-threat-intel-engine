@@ -1,0 +1,1 @@
+{"id":"sidewinder","name":"SideWinder","attribution":{"country":"India","region":"South Asia"},"file_type":"tactics_ttp","common_tactics":["Spear phishing","RTF exploitation","DLL sideloading","Credential theft","Mobile malware"],"common_initial_access":["Spear phishing with RTF exploits","Malicious Office documents","Geopolitical-themed lures","Mobile app distribution"]}

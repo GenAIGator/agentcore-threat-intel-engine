@@ -1,0 +1,1 @@
+{"id":"hafnium","name":"Hafnium","attribution":{"country":"China","region":"East Asia"},"file_type":"detection","detection_opportunities":["Exchange exploitation indicators","Web shell file creation","Unusual OAB access","Credential dumping artifacts","Large email exports"]}

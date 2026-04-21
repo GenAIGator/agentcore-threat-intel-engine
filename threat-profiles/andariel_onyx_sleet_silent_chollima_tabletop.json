@@ -1,0 +1,1 @@
+{"id":"andariel","name":"Andariel","attribution":{"country":"North Korea","region":"East Asia"},"file_type":"tabletop","tabletop_use_cases":["hospital ransomware incident","military network intrusion","cloud secrets theft"],"simulator_injects":["SOC detects suspicious web shell on EC2 host","Secrets Manager shows off-hours access","threat intel notes renewed Andariel activity"]}

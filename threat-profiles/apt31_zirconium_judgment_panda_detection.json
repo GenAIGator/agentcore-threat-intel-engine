@@ -1,0 +1,1 @@
+{"id":"apt31","name":"APT31","attribution":{"country":"China","region":"East Asia"},"file_type":"detection","detection_opportunities":["Impossible travel or unusual login geography","Abnormal OAuth consent grants","Unexpected access to policy repositories","Suspicious mailbox access","Token usage inconsistent with user behavior"]}

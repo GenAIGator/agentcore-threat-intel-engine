@@ -1,0 +1,1 @@
+{"id":"mfa_fatigue_push_bombing","name":"MFA Fatigue / Push Bombing Actors","attribution":{"country":"Multi-National / Global Criminal Ecosystem","region":"Global"},"file_type":"purple_team","purple_team":["Simulate push bombing against privileged Okta user","Test detection of repeated MFA prompt abuse","Exercise response to successful MFA fatigue compro"],"difficulty":"high"}

@@ -1,0 +1,1 @@
+{"id":"apt3","name":"APT3","attribution":{"country":"China","region":"East Asia"},"file_type":"detection","detection_opportunities":["unexpected LOTL command usage","credential dumping indicators","browser exploit telemetry","abnormal use of admin tools","unexpected web shell deployment"]}

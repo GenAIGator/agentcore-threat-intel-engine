@@ -1,0 +1,1 @@
+{"id":"unc4841","name":"UNC4841","attribution":{"country":"China","region":"East Asia"},"file_type":"detection","detection_opportunities":["Unexpected activity on secure email gateways","Persistence after appliance patching or replacement","Abnormal privileged access following email gateway aler","Suspicious mailbox access patterns","Unexpected OAuth grants and token use"]}

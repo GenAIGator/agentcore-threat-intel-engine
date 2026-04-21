@@ -1,0 +1,1 @@
+{"id":"scattered_spider","name":"Scattered Spider","attribution":{"country":"primarily US and UK-linked criminal actors","region":"Worldwide"},"file_type":"detection","detection_opportunities":["multiple MFA prompts","help desk password reset spike","impossible travel","new device login","unusual AssumeRole events"]}

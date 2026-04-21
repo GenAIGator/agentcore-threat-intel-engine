@@ -1,0 +1,1 @@
+{"id":"lapsus","name":"Lapsus$","attribution":{"country":"United Kingdom / Brazil","region":"Worldwide"},"file_type":"detection","detection_opportunities":["Multiple MFA push notifications","Help desk password reset anomalies","Unusual source code repository access","Large data exfiltration","New device enrollments"]}

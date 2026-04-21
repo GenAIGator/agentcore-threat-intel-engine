@@ -1,0 +1,1 @@
+{"id":"apt1","name":"APT1","attribution":{"country":"China","region":"East Asia"},"file_type":"detection","detection_opportunities":["Impossible travel or unusual login geography","Unexpected access to engineering and research repositor","Abnormal OAuth consent grants","Long-lived low-noise sessions","Mailbox access inconsistent with user behavior"]}

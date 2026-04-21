@@ -1,0 +1,1 @@
+{"id":"gallium","name":"Gallium","attribution":{"country":"China","region":"East Asia"},"file_type":"detection","detection_opportunities":["Unexpected access to telecom operations repositories","Abnormal OAuth grants and token usage","Suspicious administrator access patterns","Very long-lived privileged sessions","Unexpected access to cross-account trust paths"]}

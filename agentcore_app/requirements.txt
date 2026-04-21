@@ -1,0 +1,2 @@
+# Core dependencies (boto3 is pre-installed in AgentCore Runtime)
+# bedrock-agentcore is pre-installed in AgentCore Runtime

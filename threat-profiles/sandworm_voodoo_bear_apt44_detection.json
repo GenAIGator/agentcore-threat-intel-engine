@@ -1,0 +1,1 @@
+{"id":"sandworm","name":"Sandworm","attribution":{"country":"Russia","region":"Eastern Europe"},"file_type":"detection","detection_opportunities":["unexpected SCADA commands","GPO-based malware deployment","wiper execution artifacts","unexpected VPN appliance access","web shell indicators"]}

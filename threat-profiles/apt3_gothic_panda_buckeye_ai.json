@@ -1,0 +1,1 @@
+{"id":"apt3","name":"APT3","attribution":{"country":"China","region":"East Asia"},"file_type":"ai_tooling","tooling":["Pirpi","PlugX","SHOTPUT","Mimikatz"],"behaviors":["Use of zero-day vulnerabilities","Heavy post-exploitation focus","Credential harvesting and dumping","Living-off-the-land techniques"]}

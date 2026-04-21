@@ -1,0 +1,1 @@
+{"id":"apt27","name":"APT27","attribution":{"country":"China","region":"East Asia"},"file_type":"detection","detection_opportunities":["unexpected SharePoint web shell activity","watering-hole redirect chains","unusual SharePoint admin access","credential dump indicators","low-noise repository access"]}

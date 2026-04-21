@@ -1,0 +1,1 @@
+{"id":"revil","name":"REvil","attribution":{"country":"Russia","region":"Eastern Europe"},"file_type":"detection","detection_opportunities":["Unexpected privileged access from MSP or third-party ac","Security tool disablement across endpoints","Snapshot deletion or backup tampering","Large outbound transfers before encryption events","Abnormal use of remote management systems"]}

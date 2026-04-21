@@ -1,0 +1,1 @@
+{"id":"apt32","name":"APT32","attribution":{"country":"Vietnam","region":"Southeast Asia"},"file_type":"detection","detection_opportunities":["unexpected login geography","mobile device sign-in anomalies","new mailbox delegates","large document downloads","watering-hole traffic spikes"]}

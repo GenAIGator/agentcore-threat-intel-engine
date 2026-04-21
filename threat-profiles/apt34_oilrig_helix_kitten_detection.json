@@ -1,0 +1,1 @@
+{"id":"apt34","name":"APT34","attribution":{"country":"Iran","region":"Middle East"},"file_type":"detection","detection_opportunities":["unexpected PowerShell history","new mailbox delegate permissions","scheduled task drift","credential dump indicators","low-noise mailbox access"]}

@@ -1,0 +1,1 @@
+{"id":"volt_typhoon","name":"Volt Typhoon","attribution":{"country":"China","region":"East Asia"},"file_type":"ai_tooling","tooling":["WMIC","PowerShell","netsh","ntdsutil"],"behaviors":["Extensive living-off-the-land activity","Very low malware usage","Use of compromised SOHO routers as proxy infrastructure","Long dwell time"]}

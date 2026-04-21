@@ -1,0 +1,1 @@
+{"id":"hafnium","name":"Hafnium","attribution":{"country":"China","region":"East Asia"},"file_type":"tabletop","tabletop_use_cases":["Mass Exchange compromise","Research institution breach","Government email theft"],"simulator_injects":["IDS alerts on ProxyLogon exploitation","Web shell discovered on Exchange","Unusual mailbox export activity"]}

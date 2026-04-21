@@ -1,0 +1,1 @@
+{"id":"apt34","name":"APT34","attribution":{"country":"Iran","region":"Middle East"},"file_type":"ai_tooling","tooling":["BONDUPDATER","Helminth","Karkoff","QUADAGENT"],"behaviors":["heavy PowerShell use","mailbox persistence","credential harvesting","long-term LOTL activity"],"ai_confirmed":false,"ai_suspected":false,"ai_tactics":[]}

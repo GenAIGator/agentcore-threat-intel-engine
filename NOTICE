@@ -1,0 +1,22 @@
+Threat Intelligence Analyst
+Copyright 2026 GenAI Gator
+
+This product is licensed under the Apache License, Version 2.0.
+
+This project includes the following third-party components:
+
+- Amazon Bedrock AgentCore SDK (bedrock-agentcore-starter-toolkit)
+  Licensed under the Apache License, Version 2.0
+  Used for AgentCore Memory integration
+
+- Streamlit (https://github.com/streamlit/streamlit)
+  Licensed under the Apache License, Version 2.0
+  Used for the local web interface
+
+- Boto3 (https://github.com/boto/boto3)
+  Licensed under the Apache License, Version 2.0
+  Used for AWS service interactions
+
+Portions of this project's content (including threat actor profiles,
+tabletop scenarios, and detection guidance) were generated with the
+assistance of artificial intelligence systems.

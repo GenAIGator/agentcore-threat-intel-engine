@@ -1,0 +1,1 @@
+{"id":"cloud_control_plane_abuse_actors","name":"Cloud Control Plane Abuse Actors","attribution":{"country":"Multiple / Global","region":"Global"},"file_type":"purple_team","purple_team":["Simulate IAM privilege escalation through trust policy ","Test detection of CloudTrail disablement attempts","Exercise response to cross-account role chaining"],"difficulty":"very_high"}

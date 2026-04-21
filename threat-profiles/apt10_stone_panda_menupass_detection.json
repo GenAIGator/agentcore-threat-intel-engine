@@ -1,0 +1,1 @@
+{"id":"apt10","name":"APT10","attribution":{"country":"China","region":"East Asia"},"file_type":"detection","detection_opportunities":["Unexpected login geography for MSP admin accounts","Cross-account role usage outside normal patterns","New third-party application grants","Unexpected remote management console access","Low-noise S3 enumeration"]}

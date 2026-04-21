@@ -1,0 +1,1 @@
+{"id":"anonymous","name":"Anonymous","attribution":{"country":"Decentralized / Global","region":"Global"},"file_type":"detection","detection_opportunities":["DDoS preparation and traffic anomalies","Abnormal mailbox exports","Unexpected access to public communications repositories","Credential reuse from known breach datasets","Website defacement indicators"]}

@@ -1,0 +1,1 @@
+{"id":"apt33","name":"APT33","attribution":{"country":"Iran","region":"Middle East"},"file_type":"detection","detection_opportunities":["unexpected PowerShell activity","HR-themed phishing spike","credential dump indicators","wiper execution artifacts","low-noise mailbox access"]}

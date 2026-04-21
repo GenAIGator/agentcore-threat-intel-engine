@@ -1,0 +1,1 @@
+{"id":"apt40","name":"APT40","attribution":{"country":"China","region":"East Asia"},"file_type":"detection","detection_opportunities":["Unexpected web shell deployment","Abnormal login geography","Unexpected access to research repositories","Suspicious mailbox access","Credential usage inconsistent with user behavior"]}

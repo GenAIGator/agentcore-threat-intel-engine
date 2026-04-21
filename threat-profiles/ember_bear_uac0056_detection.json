@@ -1,0 +1,1 @@
+{"id":"ember_bear","name":"Ember Bear","attribution":{"country":"Russia","region":"Eastern Europe"},"file_type":"detection","detection_opportunities":["Wiper malware indicators","MBR modification attempts","Mass file deletion","Web shell deployment","Defacement activity"]}

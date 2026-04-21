@@ -1,0 +1,1 @@
+{"id":"andariel","name":"Andariel","attribution":{"country":"North Korea","region":"East Asia"},"file_type":"detection","detection_opportunities":["unexpected web shell activity","new IAM key creation","PowerShell anomalies","large S3 downloads","unexpected ransomware notes"]}

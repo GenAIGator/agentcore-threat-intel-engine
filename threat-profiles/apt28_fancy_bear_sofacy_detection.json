@@ -1,0 +1,1 @@
+{"id":"apt28","name":"APT28","attribution":{"country":"Russia","region":"Eastern Europe"},"file_type":"detection","detection_opportunities":["Impossible travel or unusual login geography","Suspicious OAuth token usage","New application impersonation permissions","Mailbox delegate changes","Unexpected DNS changes"]}

@@ -1,0 +1,1 @@
+{"id":"scattered_spider","name":"Scattered Spider","attribution":{"country":"primarily US and UK-linked criminal actors","region":"Worldwide"},"file_type":"purple_team","purple_team":["simulate help desk vishing","test MFA fatigue controls","exercise token replay detection","simulate AWS SSO takeover"],"difficulty":"extreme"}

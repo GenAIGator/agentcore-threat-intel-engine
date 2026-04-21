@@ -1,0 +1,1 @@
+{"id":"apt35","name":"APT35","attribution":{"country":"Iran","region":"Middle East"},"file_type":"detection","detection_opportunities":["impossible travel logins","new mailbox delegate permissions","unexpected OAuth grants","fake login portal detections","unusual LinkedIn outreach to executives"]}

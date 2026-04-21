@@ -1,0 +1,1 @@
+{"id":"muddywater","name":"MuddyWater","attribution":{"country":"Iran","region":"Middle East"},"file_type":"detection","detection_opportunities":["unexpected PowerShell activity","scheduled task drift","credential dump indicators","impossible travel logins","low-noise mailbox access"]}

@@ -1,0 +1,1 @@
+{"id":"apt42","name":"APT42","attribution":{"country":"Iran","region":"Middle East"},"file_type":"tabletop","tabletop_use_cases":["executive mailbox compromise","journalist targeting","researcher social engineering"],"simulator_injects":["executive reports suspicious LinkedIn outreach","SOC detects new mailbox delegate access","mobile device shows suspicious sign-in alerts"]}

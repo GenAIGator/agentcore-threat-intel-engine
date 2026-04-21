@@ -1,0 +1,1 @@
+{"id":"serverless_abuse","name":"Serverless Abuse Actors","attribution":{"country":"Multi-National / Global Criminal Ecosystem","region":"Global"},"file_type":"purple_team","purple_team":["Simulate Lambda execution role abuse leading to Se","Test detection of hidden EventBridge scheduled per","Exercise response to modified trusted functions us"],"difficulty":"very_high"}

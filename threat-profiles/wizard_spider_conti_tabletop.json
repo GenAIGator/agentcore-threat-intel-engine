@@ -1,0 +1,1 @@
+{"id":"wizard_spider","name":"Wizard Spider","attribution":{"country":"Russia","region":"Eastern Europe"},"file_type":"tabletop","tabletop_use_cases":["Hospital ransomware attack","Enterprise-wide encryption","Double extortion scenario"],"simulator_injects":["EDR alerts on TrickBot indicators","Cobalt Strike beacon detected","Mass file encryption begins"]}

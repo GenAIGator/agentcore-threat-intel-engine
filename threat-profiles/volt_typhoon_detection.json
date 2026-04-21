@@ -1,0 +1,1 @@
+{"id":"volt_typhoon","name":"Volt Typhoon","attribution":{"country":"China","region":"East Asia"},"file_type":"detection","detection_opportunities":["Unexpected use of native admin tools","Long-lived dormant sessions","Unexpected router and firewall logins","Low-volume discovery commands","Unusual access from residential IP proxy infrastructure"]}

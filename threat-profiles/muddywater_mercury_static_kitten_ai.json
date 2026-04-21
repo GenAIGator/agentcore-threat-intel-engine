@@ -1,0 +1,1 @@
+{"id":"muddywater","name":"MuddyWater","attribution":{"country":"Iran","region":"Middle East"},"file_type":"ai_tooling","tooling":["POWERSTATS","POWERSTAGE","Canopy","Mori"],"behaviors":["Heavy use of PowerShell","extensive LOTL activity","credential dumping and replay","long-term mailbox access"],"ai_confirmed":false,"ai_suspected":false,"ai_tactics":[]}

@@ -1,0 +1,331 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  Amazon Bedrock AgentCore Stack for APT Threat Intelligence.
+  Includes AgentCore Runtime, Memory, and required IAM roles.
+  Deploy agent code separately via S3 after stack creation.
+
+Parameters:
+  AgentName:
+    Type: String
+    Default: apt_threat_intel_agent
+    Description: Name of the AgentCore Runtime agent
+    AllowedPattern: ^[a-zA-Z][a-zA-Z0-9_]{0,47}$
+
+  MemoryName:
+    Type: String
+    Default: apt_threat_intel_memory
+    Description: Name of the AgentCore Memory
+    AllowedPattern: ^[a-zA-Z][a-zA-Z0-9_]{0,47}$
+
+  CodeVersion:
+    Type: String
+    Default: v10
+    Description: Version tag to force code update (change to trigger redeployment)
+
+  EventExpiryDays:
+    Type: Number
+    Default: 30
+    MinValue: 3
+    MaxValue: 365
+    Description: Number of days after which memory events expire
+
+  KnowledgeBaseId:
+    Type: String
+    Description: ID of the APT Threat Intel Knowledge Base
+
+  CodeBucketName:
+    Type: String
+    Description: S3 bucket containing the agent code package
+
+  CodePrefix:
+    Type: String
+    Default: agentcore
+    Description: S3 prefix for the agent code package (zip file should be at prefix/agent-code.zip)
+
+Resources:
+  #############################################
+  # IAM Roles
+  #############################################
+  
+  # IAM Role for AgentCore Runtime
+  RuntimeExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${AgentName}-runtime-role'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: bedrock-agentcore.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+              ArnLike:
+                aws:SourceArn: !Sub 'arn:aws:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:*'
+      Policies:
+        - PolicyName: RuntimeExecutionPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              # Bedrock model invocation
+              - Effect: Allow
+                Action:
+                  - bedrock:InvokeModel
+                  - bedrock:InvokeModelWithResponseStream
+                Resource:
+                  - !Sub 'arn:aws:bedrock:${AWS::Region}:${AWS::AccountId}:inference-profile/us.anthropic.claude-sonnet-4-6'
+                  - !Sub 'arn:aws:bedrock:${AWS::Region}::foundation-model/anthropic.*'
+                  - arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-sonnet-4-6
+                  - arn:aws:bedrock:us-east-2::foundation-model/anthropic.claude-sonnet-4-6
+                  - arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-sonnet-4-6
+              # Knowledge Base retrieval
+              - Effect: Allow
+                Action:
+                  - bedrock:Retrieve
+                  - bedrock:RetrieveAndGenerate
+                Resource:
+                  - !Sub 'arn:aws:bedrock:${AWS::Region}:${AWS::AccountId}:knowledge-base/${KnowledgeBaseId}'
+              # AgentCore Memory access
+              - Effect: Allow
+                Action:
+                  - bedrock-agentcore:CreateEvent
+                  - bedrock-agentcore:ListEvents
+                  - bedrock-agentcore:RetrieveMemories
+                  - bedrock-agentcore:ListMemoryRecords
+                  - bedrock-agentcore:GetMemory
+                Resource:
+                  - !Sub 'arn:aws:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:memory/*'
+              # S3 access for code package
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                Resource:
+                  - !Sub 'arn:aws:s3:::${CodeBucketName}/${CodePrefix}/*'
+                  - !Sub 'arn:aws:s3:::${CodeBucketName}/${CodePrefix}'
+              # CloudWatch Logs
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                  - logs:DescribeLogStreams
+                Resource:
+                  - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/bedrock-agentcore/*'
+              # X-Ray tracing
+              - Effect: Allow
+                Action:
+                  - xray:PutTraceSegments
+                  - xray:PutTelemetryRecords
+                  - xray:GetSamplingRules
+                  - xray:GetSamplingTargets
+                Resource: '*'
+
+  # IAM Role for AgentCore Memory
+  MemoryExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${MemoryName}-execution-role'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: bedrock-agentcore.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+              ArnLike:
+                aws:SourceArn: !Sub 'arn:aws:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:*'
+      Policies:
+        - PolicyName: MemoryExecutionPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - bedrock:InvokeModel
+                  - bedrock:InvokeModelWithResponseStream
+                Resource:
+                  - !Sub 'arn:aws:bedrock:${AWS::Region}::foundation-model/*'
+                  - !Sub 'arn:aws:bedrock:${AWS::Region}:${AWS::AccountId}:inference-profile/*'
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource:
+                  - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/bedrock-agentcore/*'
+
+  #############################################
+  # AgentCore Memory
+  #############################################
+  
+  ThreatIntelMemory:
+    Type: AWS::BedrockAgentCore::Memory
+    Properties:
+      Name: !Ref MemoryName
+      Description: >
+        Persistent memory for APT Threat Intelligence Agent.
+        Stores conversation context, threat intel facts, and user preferences.
+      EventExpiryDuration: !Ref EventExpiryDays
+      MemoryExecutionRoleArn: !GetAtt MemoryExecutionRole.Arn
+      MemoryStrategies:
+        # Semantic Memory - stores facts about APT groups
+        - SemanticMemoryStrategy:
+            Name: ThreatIntelFacts
+            Description: Store facts about APT groups, TTPs, and threat intelligence
+            Namespaces:
+              - /threat-intel/facts
+        # Summary Memory - summarizes conversations
+        - SummaryMemoryStrategy:
+            Name: ConversationSummary
+            Description: Summarize threat intelligence conversations
+            Namespaces:
+              - /summaries/{sessionId}
+        # User Preference Memory - tracks user interests
+        - UserPreferenceMemoryStrategy:
+            Name: UserPreferences
+            Description: Track user areas of interest
+            Namespaces:
+              - /users/preferences
+      Tags:
+        Project: APT-Threat-Intel
+        Service: AgentCore-Memory
+
+  #############################################
+  # AgentCore Runtime
+  #############################################
+  
+  ThreatIntelRuntime:
+    Type: AWS::BedrockAgentCore::Runtime
+    DependsOn: ThreatIntelMemory
+    Properties:
+      AgentRuntimeName: !Ref AgentName
+      Description: >
+        APT Threat Intelligence Agent powered by AgentCore.
+        Queries knowledge base and maintains conversation memory.
+      RoleArn: !GetAtt RuntimeExecutionRole.Arn
+      AgentRuntimeArtifact:
+        CodeConfiguration:
+          Code:
+            S3:
+              Bucket: !Ref CodeBucketName
+              Prefix: !Sub '${CodePrefix}/agent-code.zip'
+          EntryPoint:
+            - main.py
+          Runtime: PYTHON_3_12
+      NetworkConfiguration:
+        NetworkMode: PUBLIC
+      EnvironmentVariables:
+        AGENTCORE_MEMORY_ID: !GetAtt ThreatIntelMemory.MemoryId
+        KNOWLEDGE_BASE_ID: !Ref KnowledgeBaseId
+        AWS_REGION: !Ref AWS::Region
+        MODEL_ID: us.anthropic.claude-sonnet-4-6
+        CODE_VERSION: !Ref CodeVersion
+      ProtocolConfiguration: HTTP
+      Tags:
+        Project: APT-Threat-Intel
+        Service: AgentCore-Runtime
+
+  #############################################
+  # AgentCore Runtime Endpoint
+  #############################################
+  
+  ThreatIntelRuntimeEndpoint:
+    Type: AWS::BedrockAgentCore::RuntimeEndpoint
+    DependsOn: ThreatIntelRuntime
+    Properties:
+      Name: !Sub '${AgentName}_endpoint'
+      AgentRuntimeId: !GetAtt ThreatIntelRuntime.AgentRuntimeId
+      Description: Production endpoint for APT Threat Intel Agent
+      Tags:
+        Project: APT-Threat-Intel
+        Service: AgentCore-RuntimeEndpoint
+
+Outputs:
+  #############################################
+  # Memory Outputs
+  #############################################
+  
+  MemoryId:
+    Description: ID of the AgentCore Memory
+    Value: !GetAtt ThreatIntelMemory.MemoryId
+    Export:
+      Name: !Sub '${AWS::StackName}-MemoryId'
+
+  MemoryArn:
+    Description: ARN of the AgentCore Memory
+    Value: !GetAtt ThreatIntelMemory.MemoryArn
+    Export:
+      Name: !Sub '${AWS::StackName}-MemoryArn'
+
+  #############################################
+  # Runtime Outputs
+  #############################################
+  
+  RuntimeId:
+    Description: ID of the AgentCore Runtime
+    Value: !GetAtt ThreatIntelRuntime.AgentRuntimeId
+    Export:
+      Name: !Sub '${AWS::StackName}-RuntimeId'
+
+  RuntimeArn:
+    Description: ARN of the AgentCore Runtime
+    Value: !GetAtt ThreatIntelRuntime.AgentRuntimeArn
+    Export:
+      Name: !Sub '${AWS::StackName}-RuntimeArn'
+
+  RuntimeStatus:
+    Description: Status of the AgentCore Runtime
+    Value: !GetAtt ThreatIntelRuntime.Status
+    Export:
+      Name: !Sub '${AWS::StackName}-RuntimeStatus'
+
+  #############################################
+  # Runtime Endpoint Outputs
+  #############################################
+  
+  RuntimeEndpointId:
+    Description: ID of the AgentCore Runtime Endpoint
+    Value: !GetAtt ThreatIntelRuntimeEndpoint.Id
+    Export:
+      Name: !Sub '${AWS::StackName}-RuntimeEndpointId'
+
+  RuntimeEndpointArn:
+    Description: ARN of the AgentCore Runtime Endpoint
+    Value: !GetAtt ThreatIntelRuntimeEndpoint.AgentRuntimeEndpointArn
+    Export:
+      Name: !Sub '${AWS::StackName}-RuntimeEndpointArn'
+
+  RuntimeEndpointStatus:
+    Description: Status of the AgentCore Runtime Endpoint
+    Value: !GetAtt ThreatIntelRuntimeEndpoint.Status
+    Export:
+      Name: !Sub '${AWS::StackName}-RuntimeEndpointStatus'
+
+  #############################################
+  # Configuration Outputs
+  #############################################
+  
+  KnowledgeBaseId:
+    Description: Knowledge Base ID used by the agent
+    Value: !Ref KnowledgeBaseId
+    Export:
+      Name: !Sub '${AWS::StackName}-KnowledgeBaseId'
+
+  CodeUploadCommand:
+    Description: Command to upload agent code to S3
+    Value: !Sub |
+      # Package and upload agent code:
+      cd agentcore_app && zip -r ../agent-code.zip . && cd ..
+      aws s3 cp agent-code.zip s3://${CodeBucketName}/${CodePrefix}/
+
+  StreamlitConfigCommand:
+    Description: Commands to configure Streamlit app
+    Value: !Sub |
+      export AGENTCORE_RUNTIME_ARN=${ThreatIntelRuntime.AgentRuntimeArn}
+      export AGENTCORE_MEMORY_ID=${ThreatIntelMemory.MemoryId}
+      export KNOWLEDGE_BASE_ID=${KnowledgeBaseId}

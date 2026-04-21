@@ -1,0 +1,1 @@
+{"id":"dark_caracal","name":"Dark Caracal","attribution":{"country":"Lebanon","region":"Middle East"},"file_type":"detection","detection_opportunities":["unexpected Android sideloaded apps","device sign-in anomalies","unusual token replay","large mobile-origin cloud downloads","screen capture artifacts"]}

@@ -1,0 +1,1 @@
+{"id":"bitter","name":"Bitter","attribution":{"country":"India","region":"South Asia"},"file_type":"tabletop","tabletop_use_cases":["Energy facility compromise","Government network intrusion","Mobile surveillance incident"],"simulator_injects":["Energy sector employee receives suspicious document","Office exploitation detected","Custom RAT traffic identified"]}

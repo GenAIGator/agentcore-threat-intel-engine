@@ -1,0 +1,1 @@
+{"id":"apt42","name":"APT42","attribution":{"country":"Iran","region":"Middle East"},"file_type":"detection","detection_opportunities":["unexpected login geography","new mailbox delegate permissions","token replay anomalies","social engineering contact attempts","unexpected mobile app installation"]}

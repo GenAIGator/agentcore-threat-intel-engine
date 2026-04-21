@@ -1,0 +1,1 @@
+{"id":"apt1","name":"APT1","attribution":{"country":"China","region":"East Asia"},"file_type":"purple_team","purple_team":["Simulate phishing-led credential theft","Test token replay detection","Exercise engineering repository access anomaly detectio","Simulate OAuth abuse and SaaS persistence"],"difficulty":"very_high"}

@@ -1,0 +1,1 @@
+{"id":"ghostsec","name":"GhostSec","attribution":{"country":"Decentralized / Global","region":"Global"},"file_type":"detection","detection_opportunities":["Unexpected access to executive and legal repositories","Abnormal mailbox export activity","Suspicious OAuth grants or application consent","Public leak site mentions of the organization","Website defacement indicators"]}

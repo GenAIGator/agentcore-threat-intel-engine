@@ -1,0 +1,1 @@
+{"id":"apt27","name":"APT27","attribution":{"country":"China","region":"East Asia"},"file_type":"ai_tooling","tooling":["Gh0st RAT","PlugX","Mimikatz","China Chopper"],"behaviors":["frequent watering-hole operations","web shell persistence","use of public administrative tools","credential dumping"]}

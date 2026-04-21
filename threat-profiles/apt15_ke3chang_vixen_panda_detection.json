@@ -1,0 +1,1 @@
+{"id":"apt15","name":"APT15","attribution":{"country":"China","region":"East Asia"},"file_type":"detection","detection_opportunities":["Unusual mailbox access geography","Unexpected token usage","New OAuth grants","Low-noise access to diplomatic repositories","Long-lived dormant sessions"]}

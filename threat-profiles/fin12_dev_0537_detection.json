@@ -1,0 +1,1 @@
+{"id":"fin12","name":"FIN12","attribution":{"country":"Russia","region":"Eastern Europe"},"file_type":"detection","detection_opportunities":["Sudden privileged access escalation after brokered acce","Rapid lateral movement using legitimate admin tools","Unexpected access to backup systems","Suspicious disabling of security tooling","Mass access to administrative shares"]}

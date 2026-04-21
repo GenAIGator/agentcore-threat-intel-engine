@@ -1,0 +1,1 @@
+{"id":"fox_kitten","name":"Fox Kitten","attribution":{"country":"Iran","region":"Middle East"},"file_type":"detection","detection_opportunities":["Unexpected VPN logins from abnormal geographies","Repeated session reuse or hijacked tokens","Web shell indicators on perimeter appliances","Unexpected cross-account role assumptions","Suspicious privileged access after VPN activity"]}

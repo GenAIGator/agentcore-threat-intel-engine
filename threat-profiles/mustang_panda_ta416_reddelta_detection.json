@@ -1,0 +1,1 @@
+{"id":"mustang_panda","name":"Mustang Panda","attribution":{"country":"China","region":"East Asia"},"file_type":"detection","detection_opportunities":["Unexpected DLL sideloading behavior","Suspicious LNK execution","Registry Run key masquerading","Localized phishing lure delivery","USB autorun artifacts"]}

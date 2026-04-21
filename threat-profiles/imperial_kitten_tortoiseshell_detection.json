@@ -1,0 +1,1 @@
+{"id":"imperial_kitten","name":"Imperial Kitten","attribution":{"country":"Iran","region":"Middle East"},"file_type":"detection","detection_opportunities":["Unexpected recruiter-style contact patterns","Abnormal OAuth consent grants","Suspicious mailbox access","Token usage inconsistent with user behavior","Long-lived low-noise sessions"]}

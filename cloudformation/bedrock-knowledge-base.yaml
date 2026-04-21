@@ -1,0 +1,184 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  Bedrock Knowledge Base for Threat Intelligence using S3 Vectors.
+  Indexes 142 JSON threat actor profiles (named groups + generic categories) for RAG-based querying.
+
+Parameters:
+  KnowledgeBaseName:
+    Type: String
+    Default: apt-threat-intel-kb
+    Description: Name of the Bedrock Knowledge Base
+
+  S3BucketName:
+    Type: String
+    Description: Existing S3 bucket containing threat intel files
+
+  VectorBucketName:
+    Type: String
+    Default: apt-threat-intel-vectors
+    Description: Name for the S3 Vector Bucket
+
+  VectorIndexName:
+    Type: String
+    Default: apt-threat-intel-index
+    Description: Name for the Vector Index
+
+  EmbeddingModelArn:
+    Type: String
+    Default: arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v2:0
+    Description: ARN of the embedding model (Titan v2 - 1024 dimensions)
+
+Resources:
+  # S3 Vector Bucket for storing embeddings
+  ThreatIntelVectorBucket:
+    Type: AWS::S3Vectors::VectorBucket
+    Properties:
+      VectorBucketName: !Ref VectorBucketName
+      Tags:
+        - Key: Project
+          Value: APT-Threat-Intel
+        - Key: Environment
+          Value: Production
+
+  # Vector Index within the Vector Bucket
+  ThreatIntelVectorIndex:
+    Type: AWS::S3Vectors::Index
+    DependsOn: ThreatIntelVectorBucket
+    Properties:
+      IndexName: !Ref VectorIndexName
+      VectorBucketName: !Ref VectorBucketName
+      DataType: float32
+      Dimension: 1024
+      DistanceMetric: cosine
+      Tags:
+        - Key: Project
+          Value: APT-Threat-Intel
+
+  # IAM Role for Bedrock Knowledge Base
+  BedrockKnowledgeBaseRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${KnowledgeBaseName}-role'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: bedrock.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+              ArnLike:
+                aws:SourceArn: !Sub 'arn:aws:bedrock:${AWS::Region}:${AWS::AccountId}:knowledge-base/*'
+      Policies:
+        - PolicyName: BedrockKnowledgeBasePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              # S3 access for data source
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:ListBucket
+                Resource:
+                  - !Sub 'arn:aws:s3:::${S3BucketName}'
+                  - !Sub 'arn:aws:s3:::${S3BucketName}/*'
+              # Bedrock model invocation for embeddings
+              - Effect: Allow
+                Action:
+                  - bedrock:InvokeModel
+                Resource:
+                  - !Ref EmbeddingModelArn
+              # S3 Vectors access
+              - Effect: Allow
+                Action:
+                  - s3vectors:CreateIndex
+                  - s3vectors:DeleteIndex
+                  - s3vectors:GetIndex
+                  - s3vectors:ListIndexes
+                  - s3vectors:PutVectors
+                  - s3vectors:GetVectors
+                  - s3vectors:DeleteVectors
+                  - s3vectors:QueryVectors
+                  - s3vectors:ListVectors
+                Resource:
+                  - !Sub 'arn:aws:s3vectors:${AWS::Region}:${AWS::AccountId}:bucket/${VectorBucketName}'
+                  - !Sub 'arn:aws:s3vectors:${AWS::Region}:${AWS::AccountId}:bucket/${VectorBucketName}/*'
+
+  # Bedrock Knowledge Base with S3 Vectors storage
+  ThreatIntelKnowledgeBase:
+    Type: AWS::Bedrock::KnowledgeBase
+    DependsOn: ThreatIntelVectorIndex
+    Properties:
+      Name: !Ref KnowledgeBaseName
+      Description: >
+        Threat intelligence knowledge base containing 142 profiles of threat actors
+        including TTPs, AI usage, cloud relevance, and detection opportunities.
+      RoleArn: !GetAtt BedrockKnowledgeBaseRole.Arn
+      KnowledgeBaseConfiguration:
+        Type: VECTOR
+        VectorKnowledgeBaseConfiguration:
+          EmbeddingModelArn: !Ref EmbeddingModelArn
+          EmbeddingModelConfiguration:
+            BedrockEmbeddingModelConfiguration:
+              Dimensions: 1024
+      StorageConfiguration:
+        Type: S3_VECTORS
+        S3VectorsConfiguration:
+          IndexArn: !GetAtt ThreatIntelVectorIndex.IndexArn
+  # S3 Data Source for the Knowledge Base
+  ThreatIntelDataSource:
+    Type: AWS::Bedrock::DataSource
+    Properties:
+      Name: threat-intel-s3-source
+      Description: S3 data source containing threat actor JSON profiles
+      KnowledgeBaseId: !Ref ThreatIntelKnowledgeBase
+      DataSourceConfiguration:
+        Type: S3
+        S3Configuration:
+          BucketArn: !Sub 'arn:aws:s3:::${S3BucketName}'
+          InclusionPrefixes:
+            - threat-profiles/
+      VectorIngestionConfiguration:
+        ChunkingConfiguration:
+          ChunkingStrategy: NONE
+
+Outputs:
+  KnowledgeBaseId:
+    Description: ID of the Bedrock Knowledge Base (use this for agent integration)
+    Value: !Ref ThreatIntelKnowledgeBase
+    Export:
+      Name: !Sub '${AWS::StackName}-KnowledgeBaseId'
+
+  KnowledgeBaseArn:
+    Description: ARN of the Bedrock Knowledge Base
+    Value: !GetAtt ThreatIntelKnowledgeBase.KnowledgeBaseArn
+    Export:
+      Name: !Sub '${AWS::StackName}-KnowledgeBaseArn'
+
+  DataSourceId:
+    Description: ID of the S3 Data Source
+    Value: !Ref ThreatIntelDataSource
+    Export:
+      Name: !Sub '${AWS::StackName}-DataSourceId'
+
+  VectorBucketArn:
+    Description: ARN of the S3 Vector Bucket
+    Value: !GetAtt ThreatIntelVectorBucket.VectorBucketArn
+    Export:
+      Name: !Sub '${AWS::StackName}-VectorBucketArn'
+
+  VectorIndexArn:
+    Description: ARN of the Vector Index
+    Value: !GetAtt ThreatIntelVectorIndex.IndexArn
+    Export:
+      Name: !Sub '${AWS::StackName}-VectorIndexArn'
+
+  SyncCommand:
+    Description: AWS CLI command to sync the data source
+    Value: !Sub |
+      aws bedrock-agent start-ingestion-job \
+        --knowledge-base-id ${ThreatIntelKnowledgeBase} \
+        --data-source-id ${ThreatIntelDataSource} \
+        --region ${AWS::Region}
