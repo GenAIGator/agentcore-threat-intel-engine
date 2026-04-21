@@ -133,7 +133,7 @@ See [AGENTCORE_GUIDE.md](agentcore_app/AGENTCORE_GUIDE.md) for detailed packagin
 
 ## Cost
 
-Fixed costs are minimal (~$0.15/month for S3 + vectors). Variable costs are ~$0.03 per query (Claude Sonnet 4.6 input/output tokens). AgentCore Runtime and Memory are pay-per-use with no idle charges.
+Costs are minimal for low-usage workloads. AgentCore Runtime, Memory, S3 Vectors, and Bedrock model invocations are all pay-per-use with no idle charges. Refer to [AWS pricing](https://aws.amazon.com/bedrock/pricing/) for current rates.
 
 
 ## Disclaimer
